@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct MeritMealsApp: App {
+    init() {
+        print("The Application has started!")
+        UIView.appearance().overrideUserInterfaceStyle = .light
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LandingPageView()
         }
     }
 }
