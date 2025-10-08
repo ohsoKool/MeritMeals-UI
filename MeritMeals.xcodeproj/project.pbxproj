@@ -10,9 +10,22 @@
 		FFE805322E96B4DD00BD863B /* MeritMeals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MeritMeals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FF24D47E2E96C053000D2767 /* Exceptions for "MeritMeals" folder in "MeritMeals" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = FFE805312E96B4DD00BD863B /* MeritMeals */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FFE805342E96B4DD00BD863B /* MeritMeals */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FF24D47E2E96C053000D2767 /* Exceptions for "MeritMeals" folder in "MeritMeals" target */,
+			);
 			path = MeritMeals;
 			sourceTree = "<group>";
 		};
@@ -54,7 +67,7 @@
 			buildPhases = (
 				FFE8052E2E96B4DD00BD863B /* Sources */,
 				FFE8052F2E96B4DD00BD863B /* Frameworks */,
-				FFE805302E96B4DD00BD863B /* Resources */,
+				FF24D47D2E96C053000D2767 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -105,7 +118,7 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		FFE805302E96B4DD00BD863B /* Resources */ = {
+		FF24D47D2E96C053000D2767 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -256,6 +269,7 @@
 				DEVELOPMENT_TEAM = 4644Z34XMF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MeritMeals/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -288,6 +302,7 @@
 				DEVELOPMENT_TEAM = 4644Z34XMF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MeritMeals/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

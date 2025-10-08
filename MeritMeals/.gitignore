@@ -1,2 +1,5 @@
 Info.plist
 .env
+DerivedData/
+*.xcuserstate
+*.xcworkspace
