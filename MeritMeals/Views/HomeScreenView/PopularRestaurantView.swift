@@ -65,11 +65,12 @@ struct PopularRestaurantsView: View {
 //                        .navigationLinkIndicatorVisibility(.hidden)
                     }
                 }
-                .padding(.horizontal)
+                .padding(12)
             }
         }
+        .padding(.vertical, 12)
         .overlay(
-            RoundedRectangle(cornerRadius: 24)
+            RoundedRectangle(cornerRadius: 18)
                 .stroke(.gray.opacity(0.4), lineWidth: 1)
         )
     }
@@ -83,16 +84,16 @@ struct AnimatedRestaurantCardView: View {
     var restaurantName: String = "Burger King"
     var restaurantLocation: String = "Tolichowki"
     var customFontName: String = "DancingScript-Bold"
-    @State private var animate = false
+    @State private var animate = true
 
     var body: some View {
         RestaurantCardView(restaurantBanner: restaurantBanner, restaurantName: restaurantName, restaurantLocation: restaurantLocation, customFontName: customFontName)
-            .opacity(animate ? 1 : 0.8)
-            .offset(x: animate ? -50 : -15)
+//            .opacity(animate ? 1 : 0.8)
+            .offset(x: animate ? -30 : 0)
             .shadow(radius: 4)
             .onAppear {
                 withAnimation(.easeInOut(duration: 4).repeatForever(autoreverses: true)) {
-                    animate = true
+                    animate = false
                 }
             }
     }

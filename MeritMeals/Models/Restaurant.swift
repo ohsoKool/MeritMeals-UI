@@ -10,6 +10,7 @@ struct Restaurant: Codable, Identifiable {
     let postalCode: String
     let ratings: String?
     let isPureVeg: Bool
+    let isOpen: Bool
     let Cuisine: [String]
     let image: String
     var MenuCategories: [MenuCategory]?

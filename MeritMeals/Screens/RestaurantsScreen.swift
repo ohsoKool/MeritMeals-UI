@@ -22,7 +22,7 @@ struct RestaurantsScreen: View {
                                 Divider()
                             }
                         }
-//                    .padding()
+                        .padding()
                     }
                 }
                 .navigationTitle("RESTAURANTS")

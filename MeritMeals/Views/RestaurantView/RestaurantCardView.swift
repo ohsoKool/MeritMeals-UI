@@ -36,7 +36,7 @@ struct RestaurantCardView: View {
             }
             .padding()
         }
-        .padding()
+//        .padding()
 //        .background(RoundedRectangle(cornerRadius: 16)
 //            .stroke(.black.opacity(0.3))
 //            .fill(.white))

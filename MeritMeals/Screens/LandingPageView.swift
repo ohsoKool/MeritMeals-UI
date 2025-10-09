@@ -68,6 +68,7 @@ struct LandingPageView: View {
                                 radius: animateExplore ? 15 : 5
                             )
                     }
+//                    .transition(.slide)
                 }
                 .onAppear {
                     // Attach animations explicitly
