@@ -2,19 +2,31 @@ import SwiftUI
 
 struct MenuItemList: View {
     var menuItems: [MenuItem]
+//    var cart: CartModel
     var showRestaurant: Bool = false
 
     var body: some View {
-//        LazyVStack {
-        List(menuItems) { item in
-            // Need to pass the showRestaurant flag further down the views as props
-            MenuItemCardView(menuItem: item, showRestaurant: showRestaurant)
-                .listRowBackground(Color.white.opacity(0.1))
+        ScrollView {
+            LazyVStack {
+                ForEach(menuItems) { item in
+                    // Need to pass the showRestaurant flag further down the views as props
+                    VStack(alignment: .leading) {
+                        MenuItemCardView(menuItem: item, showRestaurant: showRestaurant)
+                            .listRowBackground(Color.white.opacity(0.1))
+//                            .border(.black)
+                        AddItemView(menuItem: item)
+//                            .border(.black)
+                    }
+                    .padding([.horizontal, .top])
+                    .padding(.bottom, 6)
+                    Divider()
+//            .listRowInsets(EdgeInsets())
+//                    .listRowSeparator(.hidden)
+                }
+                .listStyle(.plain)
+                .cornerRadius(24)
+            }
         }
-        .listStyle(.plain)
-        .listRowInsets(EdgeInsets())
-        .cornerRadius(24)
-//        }
     }
 }
 

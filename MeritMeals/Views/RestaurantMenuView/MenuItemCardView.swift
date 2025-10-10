@@ -26,38 +26,35 @@ struct MenuItemCardView: View {
                     .foregroundColor(.black)
                     .fontWeight(.heavy)
 
-                Text("₹\(menuItem.price)")
-                    .foregroundColor(.black.opacity(0.7))
-                    .fontWeight(.bold)
-
+                HStack {
+                    Text("₹\(menuItem.price)")
+                        .foregroundColor(.black.opacity(0.7))
+                        .fontWeight(.bold)
+                }
                 Text(menuItem.description)
                     .foregroundColor(.gray)
             }
+//            .border(.black)
 
             Spacer()
 
-            Image(menuItem.image)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 100, height: 100)
-                .cornerRadius(8)
-//                .overlay(
-//                    Button(action: {
-//                        cart.addItem(dish: dish.name)
-//                        // print("\(dish) added to cart!")
-//                    }) {
-//                        Text("ADD")
-//                            .font(.caption)
-//                            .fontWeight(.bold)
-//                            .padding(6)
-//                            .background(Color.black.opacity(0.7))
-//                            .cornerRadius(16)
-//                            .foregroundColor(.white)
+            VStack {
+                Image(menuItem.image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 100, height: 100)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .overlay(RoundedRectangle(cornerRadius: 16)
+                        .stroke(.black, lineWidth: 1)
+                    )
+                    .shadow(color: .black, radius: 6)
+//                    .overlay(alignment: .bottom) {
+//                        AddItemView(menuItem: menuItem)
 //                    }
-//                    .padding(6),
-//                    alignment: .bottomTrailing
-//                )
+            }
         }
+//        .shadow(color: .gray.opacity(0.6), radius: 6)
+//        .border(.black)
     }
 }
 
