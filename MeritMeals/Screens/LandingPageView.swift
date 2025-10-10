@@ -7,6 +7,9 @@ struct LandingPageView: View {
     @State private var animateText = false
     @State private var animateExplore = false
 
+    @EnvironmentObject var auth: AuthModel
+    @State private var user: User?
+
     var landingPageImage: String = "burger"
 
     var body: some View {
@@ -86,11 +89,15 @@ struct LandingPageView: View {
                         animateExplore = true
                     }
                 }
-            }.fullScreenCover(isPresented: $showHome) { BottomNavbarView().interactiveDismissDisabled(true) }
+            }.fullScreenCover(isPresented: $showHome) { EnterMobileView().interactiveDismissDisabled(
+                true
+            )
+            }
         }
     }
 }
 
 #Preview {
+//    let userData = User(id: UUID(), fullName: "Rishi", email: "rishi@gmail.com", mobile: "8328285257", dob: Date(), gender: "Male")
     LandingPageView()
 }

@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct PopularRestaurantsView: View {
+    @Binding var selectedTab: Int
+
     var horizontalList: [Int] = [1, 2, 3, 4, 5]
     var restaurantBanner: [String] = ["kortyard", "burgerking", "kfc", "dominos", "subway", "pizzahut"]
     var restaurantName: [String] = ["Kortyard Cafe", "Burger King", "KFC", "Domino's", "Subway", "Pizza Hut"]
@@ -45,24 +47,18 @@ struct PopularRestaurantsView: View {
 //                                description: "Sample description",
 //                                image: banner
                         //                            )
-                        NavigationLink(
-                            destination: RestaurantMenu(
+                        Button {
+                            selectedTab = 1 // the tag for your RestaurantMenu tab
+                        } label: {
+                            AnimatedRestaurantCardView(
+                                restaurantBanner: banner,
                                 restaurantName: name,
                                 restaurantLocation: location,
-                                restaurantRating: "4.4k (145k+)"
+                                customFontName: customFontName
                             )
-                        )
-                            /* .navigationTransition(.slide)*/ {
-                                AnimatedRestaurantCardView(
-                                    restaurantBanner: banner,
-                                    restaurantName: name,
-                                    restaurantLocation: location,
-                                    customFontName: customFontName
-                                )
                         }
-//                        .buttonStyle(.plain)
-                        .foregroundColor(.black)
-//                        .navigationLinkIndicatorVisibility(.hidden)
+                        .buttonStyle(.plain)
+//                        .foregroundColor(.black)
                     }
                 }
                 .padding(12)
@@ -100,7 +96,5 @@ struct AnimatedRestaurantCardView: View {
 }
 
 #Preview {
-    PopularRestaurantsView()
-//        .padding(24)
-//    AnimatedRestaurantCardView()
+//    PopularRestaurantsView()
 }

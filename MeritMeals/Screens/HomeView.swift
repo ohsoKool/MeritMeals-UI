@@ -2,6 +2,8 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var userVM = UserViewModel()
+    @Binding var selectedTab: Int
+
     var onLogout: (() -> Void)? = nil
     var fullName: String
     var body: some View {
@@ -45,7 +47,7 @@ struct HomeView: View {
                             .padding(.horizontal, 4)
                             .padding(.vertical, 2)
 
-                        PopularRestaurantsView()
+                        PopularRestaurantsView(selectedTab: $selectedTab)
                             .padding(.vertical, 4)
                             .padding(.horizontal, 8)
 //                            .border(.black)
@@ -54,18 +56,19 @@ struct HomeView: View {
             }
         }
         .navigationBarBackButtonHidden()
-        .task {
-            if let uuid = UUID(uuidString: "679f01cc-f673-475d-abb8-5e9e1a6e397e") {
-                await userVM.fetchUser(id: uuid)
-            } else {
-                print("Invalid UUID")
-            }
-        }
+//        .task {
+//            if let uuid = UUID(uuidString: "679f01cc-f673-475d-abb8-5e9e1a6e397e") {
+//                await userVM.fetchUser(id: uuid)
+//            } else {
+//                print("Invalid UUID")
+//            }
+//        }
     }
 }
 
 #Preview {
-    HomeView(
-        fullName: "Loading..."
-    )
+//    HomeView(
+//        fullName: "Loading...",
+//
+//    )
 }

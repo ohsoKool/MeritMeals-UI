@@ -22,16 +22,16 @@ class CartModel: ObservableObject {
         self.status = status
     }
 
-    func addItem(dish: MenuItem) {
-        if let index = cartItems.firstIndex(where: { $0.id == dish.id }) {
-            quantitySelected[index] += 1
-            isCartActive = true
-        } else {
-            cartItems.append(dish)
-            quantitySelected.append(1)
-            isCartActive = true
-        }
-    }
+//    func addItem(dish: MenuItem) {
+//        if let index = cartItems.firstIndex(where: { $0.id == dish.id }) {
+//            quantitySelected[index] += 1
+//            isCartActive = true
+//        } else {
+//            cartItems.append(dish)
+//            quantitySelected.append(1)
+//            isCartActive = true
+//        }
+//    }
 }
 
 // Use Class only when you need App Changes that need to be shared

@@ -14,18 +14,30 @@ struct BottomNavbarView: View {
     var settingsIcon: String = "gearshape.fill"
     var menuItem: MenuItem = .init()
     
-    @State private var selectedTab: Int = 0
     
+
+    // selectedTab is a state variable which tracks which Tab is currently selected
+    // 0 indicates that the current selected tab is 'tagItem 0'
+    @State private var selectedTab: Int = 0
+
     var body: some View {
+//        selection is an arguement expected by TabView
+        // Selection binds tabView's active tab to the $selected tab
         TabView(selection: $selectedTab) {
+            // NavigationStack is used because HomeView can have it's own navigation flow
+
+            // We passed down the binding variable in HomeView which allows the variable to be used in the ChildView which re renders the parent View
             NavigationStack {
-                HomeView(fullName: "Loading...")
+                HomeView(selectedTab: $selectedTab, fullName: "Loading...")
             }
             .tabItem {
+                //                Image(systemName: homeIcon)
+                //                Text("Home")
+                // The above line of code is shorthand for the below
                 Label("Home", systemImage: homeIcon)
             }
             .tag(0)
-            
+
             NavigationStack {
                 RestaurantMenu(
                     restaurantName: "The Shawarma Wrapz",
@@ -36,8 +48,9 @@ struct BottomNavbarView: View {
             .tabItem {
                 Label("Cart", systemImage: cartIcon)
             }
+//            .disabled(true)
             .tag(1)
-            
+
             NavigationStack {
                 FavoritesDishesView(favoriteMenuItems: [menuItem])
             }
@@ -45,7 +58,7 @@ struct BottomNavbarView: View {
                 Label("Favorites", systemImage: favoritesIcon)
             }
             .tag(2)
-            
+
             NavigationStack {
                 SettingsView()
             }
@@ -54,9 +67,6 @@ struct BottomNavbarView: View {
             }
             .tag(3)
         }
-//        .tint(.orange)
-//        .toolbarBackground(Color.orange.opacity(0.1), for: .tabBar)
-//        .toolbarBackground(.visible, for: .tabBar)
     }
 }
 
