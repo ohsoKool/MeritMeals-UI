@@ -8,7 +8,7 @@ struct EnterMobileView: View {
     @StateObject private var userVM = UserViewModel()
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 LinearGradientView()
 
@@ -38,9 +38,11 @@ struct EnterMobileView: View {
                         )
 
                     Toggle(isOn: $hasAgreedToPolicy) {
-                        Text("I agree to MeritMeals'") +
-                            Text(" User Agreement & Privacy Policy")
-                            .foregroundColor(.blue)
+                        HStack(spacing: 0) {
+                            Text("I agree to MeritMeals' ")
+                            Text("User Agreement & Privacy Policy")
+                                .foregroundColor(.blue)
+                        }
                     }
 
                     if hasAgreedToPolicy {
@@ -73,19 +75,15 @@ struct EnterMobileView: View {
                                 .foregroundColor(.red)
                                 .font(.footnote)
                         }
-
-                        NavigationLink(
-                            destination: OtpView(mobile: mobile)
-                                .environmentObject(userVM),
-                            isActive: $navigateToOtp
-                        ) {
-                            EmptyView()
-                        }
-                        .hidden() // Keep it invisible but functional
                     }
                 }
                 .padding()
             }
+            .navigationDestination(isPresented: $navigateToOtp) {
+                OtpView(mobile: mobile)
+                    .environmentObject(userVM)
+            }
+
             .onAppear {
                 DispatchQueue.main.async {
                     isFocused = true

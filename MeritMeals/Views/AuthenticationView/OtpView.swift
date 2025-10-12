@@ -6,10 +6,40 @@ struct OtpView: View {
     @State private var isCorrect: Bool = false
     @State private var hasAttempted: Bool = false
     @State private var otpValues: [String] = Array(repeating: "", count: 6)
+
     @FocusState private var focusedIndex: Int?
+
+    @State private var canResend = true
+    @State private var secondsRemaining = 0
+    // This is a state variable to invalidate the timer if the user navigated back to the home screen
+    @State private var resendTimer: Timer?
 
     @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var authModel: AuthModel
+
+    func startResendCoolDown() {
+        canResend = false
+        secondsRemaining = 30
+        // Invalidate any old timers
+        resendTimer?.invalidate()
+
+        // Create the timer first
+        let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] timer in
+            if secondsRemaining > 0 {
+                secondsRemaining -= 1
+            } else {
+                timer.invalidate()
+                canResend = true
+            }
+        }
+
+        // Set a small tolerance for efficiency
+        timer.tolerance = 0.1
+
+        // Add to main run loop so UI updates correctly even during gestures/navigation
+        RunLoop.main.add(timer, forMode: .common)
+        resendTimer = timer
+    }
 
     var body: some View {
         NavigationStack {
@@ -30,13 +60,14 @@ struct OtpView: View {
                     HStack {
                         ForEach(0 ..< otpLength, id: \.self) { index in
                             TextField("", text: $otpValues[index])
+                                // .oneTimeCode tells ios to show the otp in the autofill
                                 .textContentType(.oneTimeCode)
                                 .keyboardType(.numberPad)
                                 .foregroundColor(.gray.opacity(0.8))
                                 .frame(width: 50, height: 50)
                                 .multilineTextAlignment(.center)
                                 .focused($focusedIndex, equals: index)
-                                .onChange(of: otpValues[index]) { newValue in
+                                .onChange(of: otpValues[index]) { _, newValue in
                                     if !newValue.isEmpty && index < otpLength - 1 {
                                         focusedIndex = index + 1
                                     }
@@ -71,6 +102,10 @@ struct OtpView: View {
                                 isCorrect = true
                                 hasAttempted = false
                                 print("OTP Verified")
+
+                                if let user = userVM.user {
+                                    authModel.login(user: user)
+                                }
                             } else {
                                 isCorrect = false
                                 hasAttempted = true
@@ -78,6 +113,7 @@ struct OtpView: View {
                             }
                         }
                     }
+
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.orange)
@@ -95,12 +131,23 @@ struct OtpView: View {
                     }
 
                     Button("Resend Code") {
-                        Task { await userVM.sendOtp() }
+                        Task { await userVM.sendOtp()
+                            startResendCoolDown()
+                        }
                     }
+                    .disabled(!canResend)
                     .foregroundStyle(.blue)
+                    if !canResend {
+                        Text("Resend in \(secondsRemaining)s")
+                            .font(.caption)
+                            .foregroundColor(.gray.opacity(0.6))
+                    }
                 }
                 .padding()
                 .onAppear { focusedIndex = 0 }
+                .onDisappear {
+                    resendTimer?.invalidate()
+                }
             }
         }
     }

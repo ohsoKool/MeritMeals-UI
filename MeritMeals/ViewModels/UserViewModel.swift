@@ -31,23 +31,26 @@ extension UserViewModel {
         request.httpBody = try? JSONSerialization.data(withJSONObject: payload)
 
         do {
-            let (_, response) = try await URLSession.shared.data(for: request)
-
+            let (data, response) = try await URLSession.shared.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw URLError(.badServerResponse)
             }
 
-            if httpResponse.statusCode == 200 {
-                print("OTP sent successfully!")
-            } else {
+            if httpResponse.statusCode != 200 {
                 errorMessage = "Failed to send OTP, Try again!"
+            } else {
+                // Decode the response to get OTP (assuming backend returns it in response)
+                if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let otpCode = json["otp"] as? String
+                {
+                    print("OTP for \(mobile): \(otpCode)")
+                }
             }
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
-    // --- Function to verify otp ---
     func verifyOtp(authModel: AuthModel) async {
         guard !mobile.isEmpty, !otp.isEmpty else {
             errorMessage = "Enter your mobile and OTP"
@@ -67,15 +70,21 @@ extension UserViewModel {
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw URLError(.badServerResponse)
             }
 
             if httpResponse.statusCode == 200 {
-                let user = try JSONDecoder().decode(User.self, from: data)
-                print("OTP verified. User: \(user.fullName)")
-                authModel.login(user: user)
+                let dto = try JSONDecoder().decode(UserResponseDTO.self, from: data)
+                let verifiedUser = User(
+                    id: dto.id,
+                    fullName: "",
+                    email: "",
+                    mobile: dto.mobile,
+                    dob: nil,
+                    gender: nil
+                )
+                authModel.login(user: verifiedUser)
             } else {
                 errorMessage = "Invalid OTP or verification failed"
             }
@@ -83,4 +92,9 @@ extension UserViewModel {
             errorMessage = error.localizedDescription
         }
     }
+}
+
+struct UserResponseDTO: Decodable {
+    let id: UUID
+    let mobile: String
 }
